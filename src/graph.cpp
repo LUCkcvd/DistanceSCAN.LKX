@@ -66,13 +66,34 @@ void Graph::init(const string &graph_path) {
 
     FILE *fin = fopen(graph_file.c_str(), "r");
     if (weighted) {
-        int t1, t2;
-        double w;
-        while (fscanf(fin, "%d%d%lf", &t1, &t2, &w) != EOF) {
-            if (t1 == t2)continue;
-            adj_list[t1].push_back(t2);
-            edge_weight[t1][t2] = w;
+    int t1, t2;
+    double w;
+    while (fscanf(fin, "%d%d%lf", &t1, &t2, &w) != EOF) {
+        if (t1 == t2) continue;
+
+        // Ensure adj_list is large enough
+        if (t1 >= adj_list.size()) {
+            adj_list.resize(t1 + 1);
         }
+        adj_list[t1].push_back(t2);
+
+        // Access edge_weight[t1], and check bucket counts
+        if (edge_weight.bucket_count() == 0) {
+            std::cout << "edge_weight.bucket_count() is zero, rehashing to 16" << std::endl;
+            edge_weight.rehash(16);
+        }
+
+        auto& inner_map = edge_weight[t1];
+        std::cout << "edge_weight[" << t1 << "].bucket_count() = " << inner_map.bucket_count() << std::endl;
+
+        if (inner_map.bucket_count() == 0) {
+            std::cout << "edge_weight[" << t1 << "].bucket_count() is zero, rehashing to 8" << std::endl;
+            inner_map.rehash(8);
+        }
+
+        edge_weight[t1][t2] = w;
+    }
+
     } else {
         int t1, t2;
         while (fscanf(fin, "%d%d", &t1, &t2) != EOF) {
