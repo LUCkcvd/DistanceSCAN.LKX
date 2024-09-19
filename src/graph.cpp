@@ -61,6 +61,7 @@ void Graph::init(const string &graph_path) {
         } else {
             //graph_file += "uniform_weighted_graph.txt";
             graph_file += "jac_graph.txt";
+            graph_file += "refined_distance_graph.txt"; //added for our experimental code
         }
     }
 
