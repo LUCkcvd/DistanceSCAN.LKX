@@ -121,16 +121,17 @@ void SKETCHES::construct_sketches() {
         }
 
         // Estimate remaining time at intervals
-        if (source_nid % report_interval == 0 && source_nid > 0) {
-            auto current_time = std::chrono::steady_clock::now();
-            std::chrono::duration<double> elapsed = current_time - start_time;
-            double average_time_per_node = elapsed.count() / source_nid;
-            int nodes_remaining = total_nodes - source_nid;
-            double estimated_remaining_time = nodes_remaining * average_time_per_node;
+if (source_nid % report_interval == 0 && source_nid > 0) {
+    auto current_time = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed = current_time - start_time;
+    double average_time_per_node = elapsed.count() / source_nid;
+    int nodes_remaining = total_nodes - source_nid;
+    double estimated_remaining_time = nodes_remaining * average_time_per_node;
 
-            // Display progress and estimated remaining time
-            INFO("Processed " << source_nid << " out of " << total_nodes << " nodes. "
-                 << "Estimated time remaining: " << estimated_remaining_time << " seconds.");
+    // Display progress and estimated remaining time
+    INFO("Processed ", source_nid, " out of ", total_nodes, " nodes. ",
+         "Estimated time remaining: ", estimated_remaining_time, " seconds.");
+}
         }
     }
 }
