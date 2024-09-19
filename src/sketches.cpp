@@ -1,4 +1,4 @@
-
+#include <sstream>
 #include "sketches.h"
 
 vector<unsigned long long> SKETCHES::pick_random_coffs(int k, const unsigned long long &P) {
@@ -67,7 +67,7 @@ void SKETCHES::construct_sketches() {
     vector<idpair> dis_source_vec = vector<idpair>(graph.n, make_pair(-1, -1));
 
     int total_nodes = graph.n;
-    int report_interval = 100; 
+    int report_interval = 100; // Adjust this value as needed
 
     for (int source_nid = 0; source_nid < total_nodes; ++source_nid) {
         Treap treap;
@@ -121,21 +121,23 @@ void SKETCHES::construct_sketches() {
         }
 
         // Estimate remaining time at intervals
-if (source_nid % report_interval == 0 && source_nid > 0) {
-    auto current_time = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed = current_time - start_time;
-    double average_time_per_node = elapsed.count() / source_nid;
-    int nodes_remaining = total_nodes - source_nid;
-    double estimated_remaining_time = nodes_remaining * average_time_per_node;
+        if (source_nid % report_interval == 0 && source_nid > 0) {
+            auto current_time = std::chrono::steady_clock::now();
+            std::chrono::duration<double> elapsed = current_time - start_time;
+            double average_time_per_node = elapsed.count() / source_nid;
+            int nodes_remaining = total_nodes - source_nid;
+            double estimated_remaining_time = nodes_remaining * average_time_per_node;
 
-    // Display progress and estimated remaining time
-    INFO("Processed ", source_nid, " out of ", total_nodes, " nodes. ",
-         "Estimated time remaining: ", estimated_remaining_time, " seconds.");
-}
+            // Construct the message using stringstream
+            std::ostringstream oss;
+            oss << "Processed " << source_nid << " out of " << total_nodes << " nodes. "
+                << "Estimated time remaining: " << estimated_remaining_time << " seconds.";
+
+            // Display the message
+            INFO(oss.str());
         }
     }
 }
-
 
 int SKETCHES::update_histogram(int source_nid, double path_weight) {
     int bin_id = get_bin_id(path_weight, false);
