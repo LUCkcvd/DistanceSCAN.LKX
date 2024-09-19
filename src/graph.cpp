@@ -71,29 +71,30 @@ void Graph::init(const string &graph_path) {
     while (fscanf(fin, "%d%d%lf", &t1, &t2, &w) != EOF) {
         if (t1 == t2) continue;
 
-        // Ensure adj_list is large enough
+        // Ensure that adj_list is large enough
         if (t1 >= adj_list.size()) {
             adj_list.resize(t1 + 1);
         }
         adj_list[t1].push_back(t2);
 
-        // Access edge_weight[t1], and check bucket counts
-        if (edge_weight.bucket_count() == 0) {
-            std::cout << "edge_weight.bucket_count() is zero, rehashing to 16" << std::endl;
-            edge_weight.rehash(16);
+        // Ensure that edge_weight is large enough
+        if (t1 >= edge_weight.size()) {
+            edge_weight.resize(t1 + 1);
         }
 
+        // Access edge_weight[t1], and check bucket counts
         auto& inner_map = edge_weight[t1];
-        std::cout << "edge_weight[" << t1 << "].bucket_count() = " << inner_map.bucket_count() << std::endl;
 
+        // rehash the inner unordered_map if its bucket_count is zero
         if (inner_map.bucket_count() == 0) {
             std::cout << "edge_weight[" << t1 << "].bucket_count() is zero, rehashing to 8" << std::endl;
-            inner_map.rehash(8);
+            inner_map.rehash(8); // Rehash to allocate buckets
         }
 
-        edge_weight[t1][t2] = w;
+        // Assign the weight to the edge
+        inner_map[t2] = w;
     }
-
+        
     } else {
         int t1, t2;
         while (fscanf(fin, "%d%d", &t1, &t2) != EOF) {
