@@ -3,7 +3,7 @@
 
 #include "algos.h"
 
-void save_clusters(vector<int> cluster_result) {
+void save_clusters(std::vector<int> cluster_result) {
     string result_path =
             config.graph_location + "/" + config.algo + "d_" + to_str(config.distance) + "mu_" + to_str(config.mu) +
             "e" + to_str(config.epsilon) + ".csv";
