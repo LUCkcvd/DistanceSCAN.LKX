@@ -422,7 +422,7 @@ void ClusterAlgos::traverse_single_node_botk_sort(int u, vector<int> &parent, ve
             bin_true_size[bin_id]++;
         }
     }
-
+}
 
 
 
