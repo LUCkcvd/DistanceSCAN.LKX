@@ -284,7 +284,7 @@ vector<vector<int>> query() {
         dataOutput();
     }
     serialize_clusters(cluster_result);
-    //save_clusters(cluster_result);
+    save_clusters(graph.clusterID);
     return cluster_result;
 }
 
