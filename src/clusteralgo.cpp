@@ -402,10 +402,6 @@ void ClusterAlgos::traverse_single_node_botk(int u, vector<int> &parent, vector<
 void ClusterAlgos::traverse_single_node_botk_sort(int u, vector<int> &parent, vector<int> &rank, double bin_length, vector<vector<idpair>> &node_buckets) {
     Timer timer(TRAVERSE_NODES_TIME_BOTK_SORT);
 
-    // Clear node_buckets to remove entries from previous nodes
-    for (auto &bucket : node_buckets) {
-        bucket.clear();
-    }
 
     vector<int> bin_true_size(node_buckets.size(), 0);
     for (int i = 0; i < sketches.bot_k_dis[u].size(); ++i) {
@@ -432,14 +428,7 @@ void ClusterAlgos::traverse_single_node_botk_sort(int u, vector<int> &parent, ve
         }
     }
 
-    for (int i = 0; i < node_buckets.size(); ++i) {
-        for (int j = 0; j < bin_true_size[i]; ++j) {
-            idpair item = node_buckets[i][j];
-            test_edge(u, item.first, item.second, parent, rank, true);
-            if (graph.is_core[u] != -1) break;
-        }
-    }
-}
+
 
 
 void ClusterAlgos::traverse_single_node_dijkstra(int u, vector<idpair> &dis_source_vec, vector<int> &parent,
