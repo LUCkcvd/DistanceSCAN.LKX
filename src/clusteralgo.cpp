@@ -412,11 +412,6 @@ void ClusterAlgos::traverse_single_node_botk_sort(int u, vector<int> &parent, ve
             bin_id = (sketches.bot_k_dis[u][i] - MIN_DISTANCE) / bin_length;
         }
 
-        // Ensure bin_id is within bounds
-        if (bin_id >= node_buckets.size()) {
-            bin_id = node_buckets.size() - 1;
-        }
-
         int nei = sketches.value2key[sketches.bot_k[u][i]];
         double dis = sketches.bot_k_dis[u][i];
 
